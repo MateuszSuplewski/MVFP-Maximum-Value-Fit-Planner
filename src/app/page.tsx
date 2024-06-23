@@ -1,8 +1,17 @@
-export default function HomePage() {
+import { db } from '~/server/db'
+
+export default async function HomePage() {
+  const posts = await db.query.posts.findMany()
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <div className="grid grid-cols-1 gap-4 text-[50px]"> MVFP - Maximum Value Fitness Planner</div>
+        <div className="grid grid-cols-1 gap-4 text-[50px]">
+          MVFP - Maximum Value Fitness Planner
+        </div>
+        {posts.map((post) => (
+          <div key={post.id}>{`${post.id} - ${post.name}`}</div>
+        ))}
       </div>
     </main>
   )
